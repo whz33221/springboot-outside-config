@@ -10,7 +10,9 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 @Data
-@PropertySource(value = {"classpath:out-side-config-person.yml"}, encoding = "utf-8", factory = YmlPropertySourceFactory.class)
+@PropertySource(value = {"classpath:out-side-config-person.yml","file:./config/out-side-config-person.yml"},
+        encoding = "utf-8",
+        factory = YmlPropertySourceFactory.class)
 @ConfigurationProperties(prefix = "person")
 @Component
 public class Person {

@@ -39,7 +39,7 @@ public class TestController {
 
     @RequestMapping("classpathFile3")
     public String classpathFile3() throws Exception {
-        Resource resource = new ClassPathResource("static\\test.txt");
+        Resource resource = new ClassPathResource("static/test.txt");
         InputStream input = resource.getInputStream();
         byte[] bytes = new byte[input.available()];
         int read = input.read(bytes);
@@ -48,9 +48,19 @@ public class TestController {
 
 
 
-    @RequestMapping("outsizeFile")
-    public Object outsizeFile() throws Exception {
+    @RequestMapping("outsizeFile1")
+    public Object outsizeFile1() throws Exception {
         File file = new File("static/test.txt");
+        FileInputStream inputStream = new FileInputStream(file);
+        byte[] bytes = new byte[inputStream.available()];
+        int read = inputStream.read(bytes);
+        String res = new String(bytes,"UTF-8");
+        return res;
+    }
+
+    @RequestMapping("outsizeFile2")
+    public Object outsizeFile2() throws Exception {
+        File file = ResourceUtils.getFile("file:./static/test.txt");
         FileInputStream inputStream = new FileInputStream(file);
         byte[] bytes = new byte[inputStream.available()];
         int read = inputStream.read(bytes);

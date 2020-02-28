@@ -1,6 +1,7 @@
 package com.spring;
 
 import com.spring.config.YmlPropertySourceFactory;
+import com.spring.test.OutSideConfig;
 import com.spring.test.Person;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.concurrent.TimeUnit;
 
+
+/**
+ *
+ * 关于配置功能与详细用法：源码入口 ConfigFileApplicationListener
+ */
 @SpringBootApplication
 @Slf4j
 @EnableConfigurationProperties(Person.class)
@@ -25,17 +31,28 @@ public class OutSideConfigApplication {
 
     public static void main(String[] args) throws Exception {
         ConfigurableApplicationContext run = SpringApplication.run(OutSideConfigApplication.class, args);
-//         new Thread(new Runnable() {
-//            @SneakyThrows
-//            @Override
-//            public void run() {
-//                Person person = run.getBean("person", Person.class);
-//                while(true){
-//                    TimeUnit.SECONDS.sleep(1);
-//                    log.info("person:"+person.toString());
-//                }
-//            }
-//        }).start();
+         new Thread(new Runnable() {
+            @SneakyThrows
+            @Override
+            public void run() {
+                Person person = run.getBean("person", Person.class);
+                while(true){
+                    TimeUnit.SECONDS.sleep(1);
+                    log.info("person:"+person.toString());
+                }
+            }
+        }).start();
+        new Thread(new Runnable() {
+            @SneakyThrows
+            @Override
+            public void run() {
+                OutSideConfig config = run.getBean("outSideConfig", OutSideConfig.class);
+                while(true){
+                    TimeUnit.SECONDS.sleep(1);
+                    log.info("OutSideConfig:"+config.toString());
+                }
+            }
+        }).start();
          new Thread(new Runnable() {
             @SneakyThrows
             @Override
